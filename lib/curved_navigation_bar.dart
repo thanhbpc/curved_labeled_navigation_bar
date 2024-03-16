@@ -62,6 +62,9 @@ class CurvedNavigationBar extends StatefulWidget {
   // Use for custom clip path
   final CustomPathBuilder? customPath;
 
+  // Bottom spacing of active button
+  final double spacing;
+
   CurvedNavigationBar({
     Key? key,
     required this.items,
@@ -75,6 +78,7 @@ class CurvedNavigationBar extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 600),
     this.iconPadding = 12.0,
     this.hideButton = true,
+    this.spacing = 10.0,
     this.customPath,
     double? height,
   })  : assert(items.isNotEmpty),
@@ -170,7 +174,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
             width: size.width / _length,
             child: Center(
               child: Transform.translate(
-                offset: Offset(0, (_buttonHide - 1) * 80),
+                offset: Offset(0, (_buttonHide - 1) * (70 + widget.spacing)),
                 child: Material(
                   color: widget.buttonBackgroundColor ?? widget.color,
                   type: MaterialType.circle,
