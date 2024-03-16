@@ -8,6 +8,14 @@ import 'src/nav_custom_painter.dart';
 
 typedef _LetIndexPage = bool Function(int value);
 
+typedef CustomPathBuilder = CustomPainter Function(
+  double startingLoc,
+  int itemsLength,
+  Color color,
+  TextDirection textDirection,
+  bool hasLabel,
+);
+
 class CurvedNavigationBar extends StatefulWidget {
   /// Defines the appearance of the [CurvedNavigationBarItem] list that are
   /// arrayed within the bottom navigation bar.
@@ -52,7 +60,7 @@ class CurvedNavigationBar extends StatefulWidget {
   final bool hideButton;
 
   // Use for custom clip path
-  final CustomPainter? customPath;
+  final CustomPathBuilder? customPath;
 
   CurvedNavigationBar({
     Key? key,
@@ -180,14 +188,21 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
             right: 0,
             bottom: 0,
             child: CustomPaint(
-              painter: widget.customPath ??
-                  NavCustomPainter(
-                    startingLoc: _pos,
-                    itemsLength: _length,
-                    color: widget.color,
-                    textDirection: Directionality.of(context),
-                    hasLabel: widget.hasLabel,
-                  ),
+              painter: widget.customPath != null
+                  ? widget.customPath!.call(
+                      _pos,
+                      _length,
+                      widget.color,
+                      Directionality.of(context),
+                      widget.hasLabel,
+                    )
+                  : NavCustomPainter(
+                      startingLoc: _pos,
+                      itemsLength: _length,
+                      color: widget.color,
+                      textDirection: Directionality.of(context),
+                      hasLabel: widget.hasLabel,
+                    ),
               child: Container(height: widget.height),
             ),
           ),
