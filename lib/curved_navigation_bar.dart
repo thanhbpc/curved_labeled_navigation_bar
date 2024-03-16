@@ -77,6 +77,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
   late double _startingPos;
   late double _pos;
   late Widget _icon;
+  late Widget _activeIcon;
   late AnimationController _animationController;
   late int _length;
   int _endingIndex = 0;
@@ -86,6 +87,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
   void initState() {
     super.initState();
     _icon = widget.items[widget.index].child;
+    _activeIcon = widget.items[widget.index].activeChild ?? _icon;
     _length = widget.items.length;
     _pos = widget.index / _length;
     _startingPos = widget.index / _length;
@@ -97,6 +99,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
         final middle = (endingPos + _startingPos) / 2;
         if ((endingPos - _pos).abs() < (_startingPos - _pos).abs()) {
           _icon = widget.items[_endingIndex].child;
+          _activeIcon = widget.items[_endingIndex].activeChild ?? _icon;
         }
         _buttonHide =
             (1 - ((middle - _pos) / (_startingPos - middle)).abs()).abs();
@@ -153,7 +156,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
                   type: MaterialType.circle,
                   child: Padding(
                     padding: EdgeInsets.all(widget.iconPadding),
-                    child: _icon,
+                    child: _activeIcon,
                   ),
                 ),
               ),

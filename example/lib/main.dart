@@ -22,6 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: [
           CurvedNavigationBarItem(
             child: Icon(Icons.home_outlined),
+            activeChild: Icon(Icons.home_filled),
             label: 'Home',
           ),
           CurvedNavigationBarItem(
@@ -30,6 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           CurvedNavigationBarItem(
             child: Icon(Icons.chat_bubble_outline),
+            activeChild: Icon(Icons.chat_bubble_rounded),
             label: 'Chat',
           ),
           CurvedNavigationBarItem(

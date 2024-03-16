@@ -4,6 +4,9 @@ class CurvedNavigationBarItem {
   /// Icon of [CurvedNavigationBarItem].
   final Widget child;
 
+  /// Active Icon of [CurvedNavigationBarItem].
+  final Widget? activeChild;
+
   /// Text of [CurvedNavigationBarItem].
   final String? label;
 
@@ -12,6 +15,7 @@ class CurvedNavigationBarItem {
 
   const CurvedNavigationBarItem({
     required this.child,
+    this.activeChild,
     this.label,
     this.labelStyle,
   });
