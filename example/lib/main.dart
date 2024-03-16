@@ -19,6 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         index: 0,
+        hideButton: false,
         items: [
           CurvedNavigationBarItem(
             child: Icon(Icons.home_outlined),
@@ -47,7 +48,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         buttonBackgroundColor: Colors.white,
         backgroundColor: Colors.blueAccent,
         animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
+        animationDuration: Duration(milliseconds: 500),
         onTap: (index) {
           setState(() {
             _page = index;

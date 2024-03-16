@@ -48,6 +48,12 @@ class CurvedNavigationBar extends StatefulWidget {
   /// Check if [CurvedNavigationBar] has label.
   final bool hasLabel;
 
+  /// Hide the button or not
+  final bool hideButton;
+
+  // Use for custom clip path
+  final CustomPainter? customPath;
+
   CurvedNavigationBar({
     Key? key,
     required this.items,
@@ -60,6 +66,8 @@ class CurvedNavigationBar extends StatefulWidget {
     this.animationCurve = Curves.easeOut,
     this.animationDuration = const Duration(milliseconds: 600),
     this.iconPadding = 12.0,
+    this.hideButton = true,
+    this.customPath,
     double? height,
   })  : assert(items.isNotEmpty),
         assert(0 <= index && index < items.length),
@@ -101,8 +109,12 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
           _icon = widget.items[_endingIndex].child;
           _activeIcon = widget.items[_endingIndex].activeChild ?? _icon;
         }
-        _buttonHide =
-            (1 - ((middle - _pos) / (_startingPos - middle)).abs()).abs();
+        if (widget.hideButton) {
+          _buttonHide =
+              (1 - ((middle - _pos) / (_startingPos - middle)).abs()).abs();
+        } else {
+          _buttonHide = 0;
+        }
       });
     });
   }
@@ -168,13 +180,14 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
             right: 0,
             bottom: 0,
             child: CustomPaint(
-              painter: NavCustomPainter(
-                startingLoc: _pos,
-                itemsLength: _length,
-                color: widget.color,
-                textDirection: Directionality.of(context),
-                hasLabel: widget.hasLabel,
-              ),
+              painter: widget.customPath ??
+                  NavCustomPainter(
+                    startingLoc: _pos,
+                    itemsLength: _length,
+                    color: widget.color,
+                    textDirection: Directionality.of(context),
+                    hasLabel: widget.hasLabel,
+                  ),
               child: Container(height: widget.height),
             ),
           ),
