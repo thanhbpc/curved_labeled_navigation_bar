@@ -34,7 +34,7 @@ class CurvedNavigationBar extends StatefulWidget {
   final Color backgroundColor;
 
   /// Called when one of the [items] is tapped.
-  final ValueChanged<int>? onTap;
+  final Future<bool?> Function(int)? onTap;
 
   /// Function which takes page index as argument and returns bool. If function
   /// returns false then page is not changed on button tap. It returns true by
@@ -241,12 +241,16 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
     _buttonTap(index);
   }
 
-  void _buttonTap(int index) {
+  Future<void> _buttonTap(int index) async {
     if (!widget.letIndexChange(index) || _animationController.isAnimating) {
       return;
     }
+    bool canChangeTab = true;
     if (widget.onTap != null) {
-      widget.onTap!(index);
+      canChangeTab = await widget.onTap!(index) ?? true;
+    }
+    if (!canChangeTab) {
+      return;
     }
     final newPosition = index / _length;
     setState(() {
